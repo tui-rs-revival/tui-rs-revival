@@ -1,8 +1,7 @@
-use unicode_width::UnicodeWidthStr;
-
 use crate::{
     buffer::Buffer,
     layout::Rect,
+    text::Line,
     widgets::{
         block::BlockExt, List, ListDirection, ListState, StatefulWidget, StatefulWidgetRef, Widget,
         WidgetRef,
@@ -69,7 +68,8 @@ impl StatefulWidgetRef for List<'_> {
         state.offset = first_visible_index;
 
         // Get our set highlighted symbol (if one was set)
-        let highlight_symbol = self.highlight_symbol.unwrap_or("");
+        let default_line = Line::default();
+        let highlight_symbol = self.highlight_symbol.as_ref().unwrap_or(&default_line);
         let blank_symbol = " ".repeat(highlight_symbol.width());
 
         let mut current_height = 0;
@@ -103,7 +103,8 @@ impl StatefulWidgetRef for List<'_> {
             let is_selected = state.selected.map_or(false, |s| s == i);
 
             let item_area = if selection_spacing {
-                let highlight_symbol_width = self.highlight_symbol.unwrap_or("").width() as u16;
+                let highlight_symbol_width =
+                    self.highlight_symbol.clone().unwrap_or_default().width() as u16;
                 Rect {
                     x: row_area.x + highlight_symbol_width,
                     width: row_area.width.saturating_sub(highlight_symbol_width),
@@ -119,15 +120,15 @@ impl StatefulWidgetRef for List<'_> {
                 // - either for the first line of the item only,
                 // - or for each line of the item if the appropriate option is set
                 let symbol = if is_selected && (j == 0 || self.repeat_highlight_symbol) {
-                    highlight_symbol
+                    highlight_symbol.clone()
                 } else {
-                    &blank_symbol
+                    Line::from(blank_symbol.clone())
                 };
                 if selection_spacing {
                     buf.set_stringn(
                         x,
                         y + j as u16,
-                        symbol,
+                        symbol.to_string(),
                         list_area.width as usize,
                         item_style,
                     );
