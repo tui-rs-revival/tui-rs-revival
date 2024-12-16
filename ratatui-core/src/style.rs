@@ -491,32 +491,32 @@ impl Style {
         Ok(())
     }
 
-    color!(pub const black() -> Style);
-    color!(pub const red() -> Style);
-    color!(pub const green() -> Style);
-    color!(pub const yellow() -> Style);
-    color!(pub const blue() -> Style);
-    color!(pub const magenta() -> Style);
-    color!(pub const cyan() -> Style);
-    color!(pub const gray() -> Style);
-    color!(pub const dark_gray() -> Style);
-    color!(pub const light_red() -> Style);
-    color!(pub const light_green() -> Style);
-    color!(pub const light_yellow() -> Style);
-    color!(pub const light_blue() -> Style);
-    color!(pub const light_magenta() -> Style);
-    color!(pub const light_cyan() -> Style);
-    color!(pub const white() -> Style);
+    color!(pub const black() -> Self);
+    color!(pub const red() -> Self);
+    color!(pub const green() -> Self);
+    color!(pub const yellow() -> Self);
+    color!(pub const blue() -> Self);
+    color!(pub const magenta() -> Self);
+    color!(pub const cyan() -> Self);
+    color!(pub const gray() -> Self);
+    color!(pub const dark_gray() -> Self);
+    color!(pub const light_red() -> Self);
+    color!(pub const light_green() -> Self);
+    color!(pub const light_yellow() -> Self);
+    color!(pub const light_blue() -> Self);
+    color!(pub const light_magenta() -> Self);
+    color!(pub const light_cyan() -> Self);
+    color!(pub const white() -> Self);
 
-    modifier!(pub const bold() -> Style);
-    modifier!(pub const dim() -> Style);
-    modifier!(pub const italic() -> Style);
-    modifier!(pub const underlined() -> Style);
-    modifier!(pub const slow_blink() -> Style);
-    modifier!(pub const rapid_blink() -> Style);
-    modifier!(pub const reversed() -> Style);
-    modifier!(pub const hidden() -> Style);
-    modifier!(pub const crossed_out() -> Style);
+    modifier!(pub const bold() -> Self);
+    modifier!(pub const dim() -> Self);
+    modifier!(pub const italic() -> Self);
+    modifier!(pub const underlined() -> Self);
+    modifier!(pub const slow_blink() -> Self);
+    modifier!(pub const rapid_blink() -> Self);
+    modifier!(pub const reversed() -> Self);
+    modifier!(pub const hidden() -> Self);
+    modifier!(pub const crossed_out() -> Self);
 }
 
 impl From<Color> for Style {
@@ -766,6 +766,7 @@ mod tests {
             .bg(BLACK)
             .add_modifier(BOLD)
             .remove_modifier(ITALIC);
+        const ALL_SHORT: Style = Style::new().red().on_black().bold().not_italic();
         assert_eq!(
             ALL,
             Style::new()
@@ -774,7 +775,6 @@ mod tests {
                 .add_modifier(Modifier::BOLD)
                 .remove_modifier(Modifier::ITALIC)
         );
-        const ALL_SHORT: Style = Style::new().red().on_black().bold().not_italic();
         assert_eq!(ALL, ALL_SHORT);
     }
 

@@ -3,7 +3,7 @@ use palette::Okhsv;
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Direction, Layout, Margin, Rect},
-    style::{Color, Style, Stylize},
+    style::{Color, Style},
     symbols,
     widgets::{
         calendar::{CalendarEventStore, Monthly},
