@@ -10,7 +10,7 @@ GitHub with a [breaking change] label.
 
 This is a quick summary of the sections below:
 
-- [Unreleased](#unreleased)
+- [Unreleased](#v0300-unreleased)
   - The `From` impls for backend types are now replaced with more specific traits
   - `FrameExt` trait for `unstable-widget-ref` feature
 - [v0.29.0](#v0290)
@@ -75,7 +75,28 @@ This is a quick summary of the sections below:
   - MSRV is now 1.63.0
   - `List` no longer ignores empty strings
 
-## Unreleased (0.30.0)
+## v0.30.0 Unreleased
+
+### `Style` no longer implements `Styled` ([#1572])
+
+[#1572]: https://github.com/ratatui/ratatui/pull/1572
+
+Any calls to methods implemented by the blanket implementation of `Stylize` are now defined directly
+on `Style`. Remove the `Stylize` import if it is no longer used by your code.
+
+```diff
+- use ratatui::style::Styled;
+
+let style = Style::new().red();
+```
+
+The `reset()` method does not have a direct replacement, as it clashes with the existing `reset()`
+method. Use the `Style::reset()` method instead.
+
+```diff
+- some_style.reset();
++ Style::reset();
+```
 
 ### `FrameExt` trait for `unstable-widget-ref` feature ([#1530])
 

@@ -83,6 +83,7 @@ mod color;
 pub mod palette;
 #[cfg(feature = "palette")]
 mod palette_conversion;
+#[macro_use]
 mod stylize;
 
 bitflags! {
@@ -264,18 +265,6 @@ impl fmt::Debug for Style {
         f.write_str("Style::new()")?;
         self.fmt_stylize(f)?;
         Ok(())
-    }
-}
-
-impl Styled for Style {
-    type Item = Self;
-
-    fn style(&self) -> Style {
-        *self
-    }
-
-    fn set_style<S: Into<Self>>(self, style: S) -> Self::Item {
-        self.patch(style)
     }
 }
 
@@ -501,6 +490,33 @@ impl Style {
         }
         Ok(())
     }
+
+    color!(pub const black() -> Style);
+    color!(pub const red() -> Style);
+    color!(pub const green() -> Style);
+    color!(pub const yellow() -> Style);
+    color!(pub const blue() -> Style);
+    color!(pub const magenta() -> Style);
+    color!(pub const cyan() -> Style);
+    color!(pub const gray() -> Style);
+    color!(pub const dark_gray() -> Style);
+    color!(pub const light_red() -> Style);
+    color!(pub const light_green() -> Style);
+    color!(pub const light_yellow() -> Style);
+    color!(pub const light_blue() -> Style);
+    color!(pub const light_magenta() -> Style);
+    color!(pub const light_cyan() -> Style);
+    color!(pub const white() -> Style);
+
+    modifier!(pub const bold() -> Style);
+    modifier!(pub const dim() -> Style);
+    modifier!(pub const italic() -> Style);
+    modifier!(pub const underlined() -> Style);
+    modifier!(pub const slow_blink() -> Style);
+    modifier!(pub const rapid_blink() -> Style);
+    modifier!(pub const reversed() -> Style);
+    modifier!(pub const hidden() -> Style);
+    modifier!(pub const crossed_out() -> Style);
 }
 
 impl From<Color> for Style {
@@ -738,9 +754,13 @@ mod tests {
 
         const _RESET: Style = Style::reset();
         const _RED_FG: Style = Style::new().fg(RED);
+        const _RED_FG_SHORT: Style = Style::new().red();
         const _BLACK_BG: Style = Style::new().bg(BLACK);
+        const _BLACK_BG_SHORT: Style = Style::new().on_black();
         const _ADD_BOLD: Style = Style::new().add_modifier(BOLD);
+        const _ADD_BOLD_SHORT: Style = Style::new().bold();
         const _REMOVE_ITALIC: Style = Style::new().remove_modifier(ITALIC);
+        const _REMOVE_ITALIC_SHORT: Style = Style::new().not_italic();
         const ALL: Style = Style::new()
             .fg(RED)
             .bg(BLACK)
@@ -754,6 +774,8 @@ mod tests {
                 .add_modifier(Modifier::BOLD)
                 .remove_modifier(Modifier::ITALIC)
         );
+        const ALL_SHORT: Style = Style::new().red().on_black().bold().not_italic();
+        assert_eq!(ALL, ALL_SHORT);
     }
 
     #[rstest]
@@ -826,11 +848,6 @@ mod tests {
     #[case(Style::new().not_crossed_out(), Modifier::CROSSED_OUT)]
     fn remove_modifier_can_be_stylized(#[case] stylized: Style, #[case] expected: Modifier) {
         assert_eq!(stylized, Style::new().remove_modifier(expected));
-    }
-
-    #[test]
-    fn reset_can_be_stylized() {
-        assert_eq!(Style::new().reset(), Style::reset());
     }
 
     #[test]

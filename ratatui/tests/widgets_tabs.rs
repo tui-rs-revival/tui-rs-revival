@@ -1,10 +1,5 @@
 use ratatui::{
-    backend::TestBackend,
-    buffer::Buffer,
-    layout::Rect,
-    style::{Style, Stylize},
-    symbols,
-    widgets::Tabs,
+    backend::TestBackend, buffer::Buffer, layout::Rect, style::Style, symbols, widgets::Tabs,
     Terminal,
 };
 

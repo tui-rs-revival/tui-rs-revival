@@ -3,7 +3,7 @@ use itertools::Itertools;
 use ratatui_core::{
     buffer::Buffer,
     layout::Rect,
-    style::{Modifier, Style, Styled},
+    style::{Style, Styled},
     symbols::{self},
     text::{Line, Span},
     widgets::Widget,
@@ -11,7 +11,7 @@ use ratatui_core::{
 
 use crate::block::{Block, BlockExt};
 
-const DEFAULT_HIGHLIGHT_STYLE: Style = Style::new().add_modifier(Modifier::REVERSED);
+const DEFAULT_HIGHLIGHT_STYLE: Style = Style::new().reversed();
 
 /// A widget that displays a horizontal set of Tabs with a single tab selected.
 ///
@@ -650,11 +650,7 @@ mod tests {
                 .bold()
                 .not_italic()
                 .style,
-            Style::default()
-                .fg(Color::Black)
-                .bg(Color::White)
-                .add_modifier(Modifier::BOLD)
-                .remove_modifier(Modifier::ITALIC)
+            Style::default().black().on_white().bold().not_italic()
         );
     }
 }

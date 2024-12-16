@@ -80,7 +80,7 @@ mod tests {
     use ratatui_core::{
         buffer::Buffer,
         layout::{Margin, Rect},
-        style::{Style, Stylize},
+        style::Style,
         symbols::Marker,
         widgets::Widget,
     };
