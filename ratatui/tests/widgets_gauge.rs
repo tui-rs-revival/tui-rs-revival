@@ -2,7 +2,7 @@ use ratatui::{
     backend::TestBackend,
     buffer::Buffer,
     layout::{Constraint, Direction, Layout, Rect},
-    style::{Color, Modifier, Style, Stylize},
+    style::{Color, Modifier, Style},
     symbols,
     text::Span,
     widgets::{Block, Gauge, LineGauge},
