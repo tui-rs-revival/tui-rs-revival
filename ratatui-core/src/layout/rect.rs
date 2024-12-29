@@ -46,7 +46,8 @@ mod ops;
 /// To move a `Rect` without modifying its size, add or subtract an [`Offset`] to it.
 ///
 /// ```rust
-/// # use ratatui_core::layout::Rect;
+/// use ratatui_core::layout::{Offset, Rect};
+///
 /// let rect = Rect::new(1, 2, 3, 4);
 /// let offset = Offset::new(5, 6);
 /// let moved_rect = rect + offset;
@@ -55,7 +56,8 @@ mod ops;
 /// To resize a `Rect`, add or subtract a [`Size`].
 ///
 /// ```rust
-/// # use ratatui_core::layout::Rect;
+/// use ratatui_core::layout::{Rect, Size};
+///
 /// let rect = Rect::new(1, 2, 3, 4);
 /// let size = Size::new(5, 6);
 /// let resized_rect = rect + size;
