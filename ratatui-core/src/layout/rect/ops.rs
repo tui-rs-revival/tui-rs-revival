@@ -35,6 +35,18 @@ impl Add<Offset> for Rect {
     }
 }
 
+impl Add<Rect> for Offset {
+    type Output = Rect;
+
+    /// Moves the rect by an offset without changing its size.
+    ///
+    /// If the offset would move the any of the rect's edges outside the bounds of `u16`, the
+    /// rect's position is clamped to the nearest edge.
+    fn add(self, rect: Rect) -> Rect {
+        rect + self
+    }
+}
+
 impl Sub<Offset> for Rect {
     type Output = Self;
 
@@ -92,6 +104,20 @@ impl Add<Size> for Rect {
     }
 }
 
+impl Add<Rect> for Size {
+    type Output = Rect;
+
+    /// Adds a size to the rect.
+    ///
+    /// The width and height of the rect are increased by the size. The position is unchanged.
+    ///
+    /// If the size would cause the rect to overflow `u16`, the width and height are clamped so that
+    /// the rect's bottom or right side is at the maximum `u16` value.
+    fn add(self, rect: Rect) -> Rect {
+        rect + self
+    }
+}
+
 impl Sub<Size> for Rect {
     type Output = Self;
 
@@ -142,6 +168,7 @@ mod tests {
     #[case::saturate_positive(Rect::new(3, 4, 5, 6), Offset::MAX, Rect::new(u16::MAX- 5, u16::MAX - 6, 5, 6))]
     fn add_offset(#[case] rect: Rect, #[case] offset: Offset, #[case] expected: Rect) {
         assert_eq!(rect + offset, expected);
+        assert_eq!(offset + rect, expected);
     }
 
     #[rstest]
@@ -184,6 +211,7 @@ mod tests {
     #[case::saturate_positive(Rect::new(3, 4, 5, 6), Size::MAX, Rect::new(3, 4, u16::MAX - 3, u16::MAX - 4))]
     fn add_size(#[case] rect: Rect, #[case] size: Size, #[case] expected: Rect) {
         assert_eq!(rect + size, expected);
+        assert!(size + rect == expected);
     }
 
     #[rstest]
